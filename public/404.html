@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="0; url=/" />
+    <script>
+      // GitHub Pages SPA redirect
+      (function () {
+        var l = window.location;
+        var pathname = l.pathname.replace(/\/[^/]+\.[^/]+$/, "");
+        var redirect =
+          "/?redirect=" + encodeURIComponent(l.pathname + l.search + l.hash);
+        window.location.replace(pathname + redirect);
+      })();
+    </script>
+    <title>404 Not Found</title>
+  </head>
+  <body>
+    <h1>404 Not Found</h1>
+    <p>ページが見つかりません。自動的にトップページへリダイレクトします。</p>
+  </body>
+</html>
