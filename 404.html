@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <title>404 Not Found</title>
     <script>
-      // GitHub Pages SPA redirect - 無限ループ防止版
+      // GitHub Pages SPA redirect - 確実なリダイレクト版
       (function () {
         var l = window.location;
         var pathname = l.pathname;
 
         // 既にリダイレクト処理が実行されている場合は何もしない
         if (sessionStorage.getItem("redirecting")) {
+          sessionStorage.removeItem("redirecting");
           return;
         }
 
@@ -25,12 +26,28 @@
           cleanPath = pathname.substring(basePath.length);
         }
 
+        // クエリパラメータやハッシュを除去
+        cleanPath = cleanPath.split("?")[0].split("#")[0];
+
+        // 有効なルートパスかチェック
+        var validRoutes = [
+          "",
+          "/",
+          "/experience",
+          "/projects",
+          "/books",
+          "/hobbies",
+        ];
+
         // ルートパスまたは空の場合は、ベースパスにリダイレクト
         if (!cleanPath || cleanPath === "/") {
           window.location.replace(basePath + "/");
-        } else {
-          // その他のパスの場合は、ベースパス + パスにリダイレクト
+        } else if (validRoutes.includes(cleanPath)) {
+          // 有効なルートの場合は、ベースパス + パスにリダイレクト
           window.location.replace(basePath + cleanPath);
+        } else {
+          // 無効なルートの場合は、ホームにリダイレクト
+          window.location.replace(basePath + "/");
         }
       })();
     </script>
