@@ -4,34 +4,20 @@
     <meta charset="utf-8" />
     <title>Portfolio</title>
     <script>
-      // GitHub Pages SPA redirect - 確実版
+      // GitHub Pages SPA redirect for portfolio
       (function () {
         const loc = window.location;
-        const pathname = loc.pathname;
+        const origin = loc.origin; //=> https://t-r-private.github.io
+        const path = loc.href.substr(origin.length + 1); //=> portfolio/projects
 
-        console.log("404.html - Pathname:", pathname);
-
-        // /portfolio/ 以降のパスを取得
-        if (pathname.startsWith("/portfolio/")) {
-          const route = pathname.substring("/portfolio/".length);
-          console.log("404.html - Route:", route);
-
-          // 有効なルートかチェック
-          const validRoutes = ["experience", "projects", "books", "hobbies"];
-          if (validRoutes.includes(route)) {
-            console.log("404.html - Valid route, redirecting");
-            // クエリパラメータ付きでリダイレクト
-            const url =
-              loc.origin + "/portfolio/?p=" + encodeURIComponent(route);
-            console.log("404.html - Redirect URL:", url);
-            window.location.replace(url);
-          } else {
-            console.log("404.html - Invalid route, going home");
-            window.location.replace(loc.origin + "/portfolio/");
-          }
+        // portfolio/ 以降のパスを取得
+        if (path.startsWith("portfolio/")) {
+          const route = path.substring("portfolio/".length); //=> projects
+          const url = origin + "/portfolio/?p=" + encodeURIComponent(route);
+          loc.replace(url);
         } else {
-          console.log("404.html - Not portfolio path, going home");
-          window.location.replace(loc.origin + "/portfolio/");
+          // portfolio/ で始まらない場合は、portfolio/ にリダイレクト
+          loc.replace(origin + "/portfolio/");
         }
       })();
     </script>
