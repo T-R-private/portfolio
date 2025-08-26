@@ -2,41 +2,37 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <title>404 Not Found</title>
+    <title>Redirecting…</title>
     <script>
-      // GitHub Pages SPA redirect - 無限ループ防止版
       (function () {
+        // あなたのプロジェクトのベースパス（リポジトリ名）に合わせて
+        var BASE = "/portfolio";
+
         var l = window.location;
-        var pathname = l.pathname;
 
-        // 既にリダイレクト処理が実行されている場合は何もしない
-        if (sessionStorage.getItem("redirecting")) {
-          return;
-        }
+        // /portfolio 以降のパスを取り出す（例: "/experience"）
+        var path = l.pathname.startsWith(BASE)
+          ? l.pathname.slice(BASE.length)
+          : l.pathname;
 
-        // リダイレクト処理開始をマーク
-        sessionStorage.setItem("redirecting", "true");
+        // 末尾の / はそのまま扱ってOK（ルーターが解決）
+        var search = l.search || "";
+        var hash = l.hash || "";
 
-        // ベースパスを除去
-        var basePath = "/portfolio";
-        var cleanPath = pathname;
+        // ルートに一度戻し、元のURIをクエリに積む
+        // 例: /portfolio/?__gh_redirect=/experience
+        var url =
+          BASE + "/?__gh_redirect=" + encodeURIComponent(path + search + hash);
 
-        if (pathname.startsWith(basePath)) {
-          cleanPath = pathname.substring(basePath.length);
-        }
-
-        // ルートパスまたは空の場合は、ベースパスにリダイレクト
-        if (!cleanPath || cleanPath === "/") {
-          window.location.replace(basePath + "/");
-        } else {
-          // その他のパスの場合は、ベースパス + パスにリダイレクト
-          window.location.replace(basePath + cleanPath);
-        }
+        // 履歴を汚さないよう replace
+        l.replace(url);
       })();
     </script>
+    <noscript
+      >JavaScript が必要です。<a href="/portfolio/"
+        >/portfolio/ に戻る</a
+      ></noscript
+    >
   </head>
-  <body>
-    <h1>404 Not Found</h1>
-    <p>ページが見つかりません。自動的に適切なページへリダイレクトします。</p>
-  </body>
+  <body></body>
 </html>

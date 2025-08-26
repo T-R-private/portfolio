@@ -26,30 +26,17 @@
     -->
     <title>React App</title>
     <script>
-      // GitHub Pages SPA redirect - 無限ループ防止版
       (function () {
-        // 既にリダイレクト処理が実行されている場合は何もしない
-        if (sessionStorage.getItem("redirecting")) {
-          sessionStorage.removeItem("redirecting");
-          return;
-        }
+        var BASE = "/portfolio";
+        var params = new URLSearchParams(window.location.search);
+        var redir = params.get("__gh_redirect");
+        if (!redir) return;
 
-        var l = window.location;
-        var pathname = l.pathname;
+        // 例: "/experience?foo=1#bar"
+        var target = BASE + decodeURIComponent(redir);
 
-        // ベースパスを除去
-        var basePath = "/portfolio";
-        var cleanPath = pathname;
-
-        if (pathname.startsWith(basePath)) {
-          cleanPath = pathname.substring(basePath.length);
-        }
-
-        // 長大なURLの場合は、クリーンなパスにリダイレクト
-        if (l.search.length > 50 || l.href.length > 150) {
-          sessionStorage.setItem("redirecting", "true");
-          window.location.replace(basePath + cleanPath);
-        }
+        // クエリを消しつつ「本来のURL」に置き換える
+        window.history.replaceState(null, "", target);
       })();
     </script>
   </head>
