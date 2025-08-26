@@ -4,53 +4,13 @@
     <meta charset="UTF-8" />
     <title>Redirecting…</title>
     <script>
-      // GitHub Pages SPA redirect - 確実版
-      (function () {
-        var l = window.location;
-        var pathname = l.pathname;
-
-        // ベースパスを除去
-        var basePath = "/portfolio";
-        var cleanPath = pathname;
-
-        if (pathname.startsWith(basePath)) {
-          cleanPath = pathname.substring(basePath.length);
-        }
-
-        // クエリパラメータやハッシュを除去
-        cleanPath = cleanPath.split("?")[0].split("#")[0];
-
-        // 有効なルートパスかチェック
-        var validRoutes = [
-          "",
-          "/",
-          "/experience",
-          "/projects",
-          "/books",
-          "/hobbies",
-        ];
-
-        // ルートパスまたは空の場合は、ベースパスにリダイレクト
-        if (!cleanPath || cleanPath === "/") {
-          window.location.replace(basePath + "/");
-        } else if (validRoutes.includes(cleanPath)) {
-          // 有効なルートの場合は、ベースパス + パスにリダイレクト
-          window.location.replace(basePath + cleanPath);
-        } else {
-          // 無効なルートの場合は、ホームにリダイレクト
-          window.location.replace(basePath + "/");
-        }
-      })();
+      // 確実にホームにリダイレクト
+      window.location.replace("/portfolio/");
     </script>
   </head>
   <body>
     <h1>Redirecting...</h1>
     <p>ページをリダイレクトしています...</p>
-    <script>
-      // フォールバック: 3秒後にホームにリダイレクト
-      setTimeout(function () {
-        window.location.replace("/portfolio/");
-      }, 3000);
-    </script>
+    <p><a href="/portfolio/">手動でホームに戻る</a></p>
   </body>
 </html>
