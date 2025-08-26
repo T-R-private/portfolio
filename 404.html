@@ -2,21 +2,37 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url=/" />
+    <title>404 Not Found</title>
     <script>
       // GitHub Pages SPA redirect
       (function () {
         var l = window.location;
-        var pathname = l.pathname.replace(/\/[^/]+\.[^/]+$/, "");
-        var redirect =
-          "/?redirect=" + encodeURIComponent(l.pathname + l.search + l.hash);
-        window.location.replace(pathname + redirect);
+        var pathname = l.pathname;
+
+        // 無限リダイレクトを防ぐため、redirectパラメータがある場合は処理しない
+        if (l.search.includes("redirect=")) {
+          return;
+        }
+
+        // ベースパスを除去してルートパスを取得
+        var basePath = "/portfolio";
+        if (pathname.startsWith(basePath)) {
+          pathname = pathname.substring(basePath.length);
+        }
+
+        // ルートパスが空または/の場合は、ベースパスにリダイレクト
+        if (!pathname || pathname === "/") {
+          window.location.replace(basePath + "/");
+          return;
+        }
+
+        // その他のパスの場合は、ベースパス + パスにリダイレクト
+        window.location.replace(basePath + pathname + l.search + l.hash);
       })();
     </script>
-    <title>404 Not Found</title>
   </head>
   <body>
     <h1>404 Not Found</h1>
-    <p>ページが見つかりません。自動的にトップページへリダイレクトします。</p>
+    <p>ページが見つかりません。自動的に適切なページへリダイレクトします。</p>
   </body>
 </html>
