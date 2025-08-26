@@ -24,8 +24,8 @@
         var url =
           BASE + "/?__gh_redirect=" + encodeURIComponent(path + search + hash);
 
-        // 履歴を汚さないよう replace
-        l.replace(url);
+        // 即座にリダイレクト実行
+        window.location.replace(url);
       })();
     </script>
     <noscript
@@ -34,5 +34,8 @@
       ></noscript
     >
   </head>
-  <body></body>
+  <body>
+    <h1>Redirecting...</h1>
+    <p>ページをリダイレクトしています...</p>
+  </body>
 </html>

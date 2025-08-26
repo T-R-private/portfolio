@@ -37,6 +37,9 @@
 
         // クエリを消しつつ「本来のURL」に置き換える
         window.history.replaceState(null, "", target);
+
+        // React Routerに変更を通知
+        window.dispatchEvent(new PopStateEvent("popstate"));
       })();
     </script>
   </head>
