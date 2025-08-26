@@ -1,43 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <title>Portfolio</title>
+    <title>Redirecting…</title>
     <script>
-      // GitHub Pages SPA redirect - 確実版
       (function () {
-        const loc = window.location;
-        const pathname = loc.pathname;
+        var BASE = "/portfolio"; // ← リポ名に合わせる
+        var l = window.location;
 
-        console.log("404.html - Pathname:", pathname);
+        // BASE を取り除いた元のパス + 検索 + ハッシュを連結
+        var path = l.pathname.startsWith(BASE)
+          ? l.pathname.slice(BASE.length)
+          : l.pathname;
+        var redir = encodeURIComponent(
+          path + (l.search || "") + (l.hash || "")
+        );
 
-        // /portfolio/ 以降のパスを取得
-        if (pathname.startsWith("/portfolio/")) {
-          const route = pathname.substring("/portfolio/".length);
-          console.log("404.html - Route:", route);
-
-          // 有効なルートかチェック
-          const validRoutes = ["experience", "projects", "books", "hobbies"];
-          if (validRoutes.includes(route)) {
-            console.log("404.html - Valid route, redirecting");
-            // クエリパラメータ付きでリダイレクト
-            const url =
-              loc.origin + "/portfolio/?p=" + encodeURIComponent(route);
-            console.log("404.html - Redirect URL:", url);
-            window.location.replace(url);
-          } else {
-            console.log("404.html - Invalid route, going home");
-            window.location.replace(loc.origin + "/portfolio/");
-          }
-        } else {
-          console.log("404.html - Not portfolio path, going home");
-          window.location.replace(loc.origin + "/portfolio/");
-        }
+        // 404→必ずルートへ戻す（200が返る場所）＋元URLを __gh_redirect に積む
+        l.replace(BASE + "/?__gh_redirect=" + redir);
       })();
     </script>
+    <noscript
+      >JavaScript が必要です。<a href="/portfolio/">トップへ</a></noscript
+    >
   </head>
-  <body>
-    <h1>Redirecting...</h1>
-    <p>ページをリダイレクトしています...</p>
-  </body>
+  <body></body>
 </html>
