@@ -4,42 +4,34 @@
     <meta charset="utf-8" />
     <title>Portfolio</title>
     <script>
-      // GitHub Pages SPA redirect for portfolio - デバッグ版
+      // GitHub Pages SPA redirect - 確実版
       (function () {
         const loc = window.location;
-        console.log("404.html - Current URL:", loc.href);
-        console.log("404.html - Pathname:", loc.pathname);
-        console.log("404.html - Search:", loc.search);
-
-        const origin = loc.origin;
         const pathname = loc.pathname;
+
+        console.log("404.html - Pathname:", pathname);
 
         // /portfolio/ 以降のパスを取得
         if (pathname.startsWith("/portfolio/")) {
           const route = pathname.substring("/portfolio/".length);
-          console.log("404.html - Extracted route:", route);
-
-          // 空の場合はホーム
-          if (!route || route === "") {
-            console.log("404.html - Redirecting to home");
-            loc.replace(origin + "/portfolio/");
-            return;
-          }
+          console.log("404.html - Route:", route);
 
           // 有効なルートかチェック
           const validRoutes = ["experience", "projects", "books", "hobbies"];
           if (validRoutes.includes(route)) {
-            console.log("404.html - Valid route, redirecting with query param");
-            const url = origin + "/portfolio/?p=" + encodeURIComponent(route);
+            console.log("404.html - Valid route, redirecting");
+            // クエリパラメータ付きでリダイレクト
+            const url =
+              loc.origin + "/portfolio/?p=" + encodeURIComponent(route);
             console.log("404.html - Redirect URL:", url);
-            loc.replace(url);
+            window.location.replace(url);
           } else {
-            console.log("404.html - Invalid route, redirecting to home");
-            loc.replace(origin + "/portfolio/");
+            console.log("404.html - Invalid route, going home");
+            window.location.replace(loc.origin + "/portfolio/");
           }
         } else {
-          console.log("404.html - Not portfolio path, redirecting to home");
-          loc.replace(origin + "/portfolio/");
+          console.log("404.html - Not portfolio path, going home");
+          window.location.replace(loc.origin + "/portfolio/");
         }
       })();
     </script>
@@ -47,6 +39,5 @@
   <body>
     <h1>Redirecting...</h1>
     <p>ページをリダイレクトしています...</p>
-    <p>コンソールでデバッグ情報を確認してください。</p>
   </body>
 </html>
