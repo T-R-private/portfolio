@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import TechTag from "../components/ui/TechTag";
 
 const Container = styled.div`
-  min-height: 100vh;
+  min-height: calc(100vh - 70px);
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   padding: 40px 20px;
 `;
@@ -97,15 +98,6 @@ const TechStack = styled.div`
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 20px;
-`;
-
-const TechTag = styled.span`
-  background: #4facfe;
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
 `;
 
 const ProjectLinks = styled.div`

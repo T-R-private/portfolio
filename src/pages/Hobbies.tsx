@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-  min-height: 100vh;
-  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  min-height: calc(100vh - 70px);
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
   padding: 40px 20px;
 `;
 
 const Content = styled.div`
-  max-width: 1000px;
+  max-width: 800px;
   margin: 0 auto;
 `;
 
@@ -30,6 +30,12 @@ const Title = styled.h1`
   }
 `;
 
+const Subtitle = styled.p`
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 24px;
+`;
+
 const BackButton = styled(Link)`
   display: inline-flex;
   align-items: center;
@@ -45,167 +51,169 @@ const BackButton = styled(Link)`
   }
 `;
 
-const HobbiesGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 32px;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
+const QASection = styled.div`
+  margin-bottom: 32px;
 `;
 
-const HobbyCard = styled.div`
+const QuestionCard = styled.div<{ isOpen: boolean }>`
   background: rgba(255, 255, 255, 0.9);
   border-radius: 16px;
-  padding: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
+  cursor: pointer;
+  overflow: hidden;
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   }
 `;
 
-const HobbyImage = styled.img`
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-`;
-
-const HobbyTitle = styled.h3`
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 12px;
-`;
-
-const HobbyDescription = styled.p`
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 16px;
-`;
-
-const HobbyDetails = styled.div`
-  font-size: 0.9rem;
-  color: #666;
-  line-height: 1.5;
-`;
-
-const HobbyTag = styled.span`
-  display: inline-block;
-  background: #fcb69f;
+const QuestionHeader = styled.div`
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
+`;
+
+const QuestionText = styled.h3`
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+`;
+
+const ExpandIcon = styled.div<{ isOpen: boolean }>`
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  transform: rotate(${(props) => (props.isOpen ? "180deg" : "0deg")});
+  font-size: 1.2rem;
+`;
+
+const AnswerContent = styled.div<{ isOpen: boolean }>`
+  max-height: ${(props) => (props.isOpen ? "500px" : "0")};
+  overflow: hidden;
+  transition: all 0.3s ease;
+  opacity: ${(props) => (props.isOpen ? "1" : "0")};
+`;
+
+const AnswerText = styled.div`
+  padding: 24px;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #333;
+  background: rgba(255, 255, 255, 0.95);
+`;
+
+const TechTag = styled.span`
+  display: inline-block;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: #333;
   padding: 4px 12px;
   border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  margin-right: 8px;
-  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 4px 8px 4px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 `;
 
 function Hobbies() {
+  const [openQuestions, setOpenQuestions] = useState<number[]>([]);
+
+  const toggleQuestion = (index: number) => {
+    setOpenQuestions((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
+  const qaData = [
+    {
+      question: "プログラミングを始めたきっかけは？",
+      answer:
+        "大学時代に友人からプログラミングの面白さを教えてもらったのがきっかけです。最初は簡単なゲームを作ることから始めて、徐々にWebアプリケーション開発に興味を持つようになりました。特に、自分の作ったものが実際に動く瞬間の感動が忘れられません。",
+    },
+    {
+      question: "得意な技術スタックは？",
+      answer: (
+        <div>
+          <p>現在主に使用している技術スタックは以下の通りです：</p>
+          <div style={{ marginTop: "12px" }}>
+            <TechTag>React</TechTag>
+            <TechTag>TypeScript</TechTag>
+            <TechTag>Node.js</TechTag>
+            <TechTag>Python</TechTag>
+            <TechTag>PostgreSQL</TechTag>
+            <TechTag>AWS</TechTag>
+          </div>
+          <p style={{ marginTop: "16px" }}>
+            特にReactとTypeScriptの組み合わせが好きで、型安全性を保ちながらモダンな開発ができる点が気に入っています。
+          </p>
+        </div>
+      ),
+    },
+    {
+      question: "最近興味を持っている技術は？",
+      answer:
+        "生成AIとその実務活用に非常に興味があります。特に、AIエージェント技術やプロンプトエンジニアリングについて勉強中です。また、マイクロサービスアーキテクチャやクラウドネイティブ技術にも関心があり、実際のプロジェクトで活用できるようになりたいと考えています。",
+    },
+    {
+      question: "プログラミング以外の趣味は？",
+      answer:
+        "読書（特に技術書とビジネス書）、音楽鑑賞、散歩が好きです。技術書を読むことで新しい知識を得るのが楽しく、音楽を聴きながらコーディングする時間が至福のひとときです。また、散歩中にアイデアが浮かぶことも多く、問題解決のヒントを得られることがあります。",
+    },
+    {
+      question: "理想のエンジニア像は？",
+      answer:
+        "技術力だけでなく、ビジネス価値を理解し、チーム全体の成長に貢献できるエンジニアになりたいです。また、新しい技術に貪欲で、常に学習し続ける姿勢を大切にしています。ユーザーの課題を深く理解し、最適なソリューションを提供できるエンジニアを目指しています。",
+    },
+    {
+      question: "開発で大切にしていることは？",
+      answer:
+        "コードの可読性と保守性を最優先に考えています。また、チーム開発ではコミュニケーションを大切にし、他のメンバーが理解しやすいコードやドキュメントを心がけています。テスト駆動開発（TDD）の考え方も取り入れて、品質の高いコードを書くことを意識しています。",
+    },
+    {
+      question: "今後の目標は？",
+      answer:
+        "技術的なスキルをさらに磨きながら、リーダーシップを発揮できるエンジニアになりたいです。また、オープンソースプロジェクトへの貢献や技術ブログの執筆を通じて、エンジニアコミュニティに還元できるようになりたいと考えています。将来的には、技術的な課題解決だけでなく、チームマネジメントやプロダクト戦略にも携われるようになりたいです。",
+    },
+  ];
+
   return (
     <Container>
       <Content>
         <Header>
-          <Title>趣味</Title>
+          <Title>自己紹介 Q&A</Title>
+          <Subtitle>
+            技術的な内容から趣味まで、私について知ってもらえる7つの質問
+          </Subtitle>
           <BackButton to="/">← ホームに戻る</BackButton>
         </Header>
 
-        <HobbiesGrid>
-          <HobbyCard>
-            <HobbyImage src="https://placehold.jp/400x200.png" alt="写真撮影" />
-            <HobbyTitle>写真撮影</HobbyTitle>
-            <HobbyDescription>
-              風景や街並みの写真を撮るのが好きです。特に夕日や夜景を撮影するのが得意で、
-              新しい場所を訪れる際は必ずカメラを持参します。
-            </HobbyDescription>
-            <HobbyDetails>
-              <HobbyTag>風景写真</HobbyTag>
-              <HobbyTag>夜景</HobbyTag>
-              <HobbyTag>街歩き</HobbyTag>
-            </HobbyDetails>
-          </HobbyCard>
-
-          <HobbyCard>
-            <HobbyImage src="https://placehold.jp/400x200.png" alt="読書" />
-            <HobbyTitle>読書</HobbyTitle>
-            <HobbyDescription>
-              技術書から小説まで幅広く読んでいます。特にSF小説やビジネス書が好きで、
-              新しい知識やアイデアを得るために毎日少しずつ読書の時間を設けています。
-            </HobbyDescription>
-            <HobbyDetails>
-              <HobbyTag>技術書</HobbyTag>
-              <HobbyTag>SF小説</HobbyTag>
-              <HobbyTag>ビジネス書</HobbyTag>
-            </HobbyDetails>
-          </HobbyCard>
-
-          <HobbyCard>
-            <HobbyImage src="https://placehold.jp/400x200.png" alt="料理" />
-            <HobbyTitle>料理</HobbyTitle>
-            <HobbyDescription>
-              自炊を心がけており、新しいレシピに挑戦するのが楽しみです。
-              特にイタリアンや和食を作るのが好きで、友人を招いて料理を振る舞うこともあります。
-            </HobbyDescription>
-            <HobbyDetails>
-              <HobbyTag>イタリアン</HobbyTag>
-              <HobbyTag>和食</HobbyTag>
-              <HobbyTag>自炊</HobbyTag>
-            </HobbyDetails>
-          </HobbyCard>
-
-          <HobbyCard>
-            <HobbyImage src="https://placehold.jp/400x200.png" alt="旅行" />
-            <HobbyTitle>旅行</HobbyTitle>
-            <HobbyDescription>
-              新しい場所を訪れるのが大好きです。国内旅行を中心に、
-              歴史的な建造物や自然豊かな場所を巡っています。
-              旅行先での体験が開発のアイデアに繋がることもあります。
-            </HobbyDescription>
-            <HobbyDetails>
-              <HobbyTag>国内旅行</HobbyTag>
-              <HobbyTag>歴史</HobbyTag>
-              <HobbyTag>自然</HobbyTag>
-            </HobbyDetails>
-          </HobbyCard>
-
-          <HobbyCard>
-            <HobbyImage src="https://placehold.jp/400x200.png" alt="音楽鑑賞" />
-            <HobbyTitle>音楽鑑賞</HobbyTitle>
-            <HobbyDescription>
-              様々なジャンルの音楽を聴くのが好きです。特にロックやJ-POPを好み、
-              コーディング中にも音楽を聴きながら作業を進めることが多いです。
-            </HobbyDescription>
-            <HobbyDetails>
-              <HobbyTag>ロック</HobbyTag>
-              <HobbyTag>J-POP</HobbyTag>
-              <HobbyTag>作業用BGM</HobbyTag>
-            </HobbyDetails>
-          </HobbyCard>
-
-          <HobbyCard>
-            <HobbyImage src="https://placehold.jp/400x200.png" alt="ゲーム" />
-            <HobbyTitle>ゲーム</HobbyTitle>
-            <HobbyDescription>
-              インディーゲームからAAAタイトルまで幅広くプレイしています。
-              ゲームのUI/UXデザインから学ぶことも多く、開発の参考にすることもあります。
-            </HobbyDescription>
-            <HobbyDetails>
-              <HobbyTag>インディーゲーム</HobbyTag>
-              <HobbyTag>RPG</HobbyTag>
-              <HobbyTag>UI/UX研究</HobbyTag>
-            </HobbyDetails>
-          </HobbyCard>
-        </HobbiesGrid>
+        {qaData.map((qa, index) => (
+          <QASection key={index}>
+            <QuestionCard
+              isOpen={openQuestions.includes(index)}
+              onClick={() => toggleQuestion(index)}
+            >
+              <QuestionHeader>
+                <QuestionText>{qa.question}</QuestionText>
+                <ExpandIcon isOpen={openQuestions.includes(index)}>
+                  ▼
+                </ExpandIcon>
+              </QuestionHeader>
+              <AnswerContent isOpen={openQuestions.includes(index)}>
+                <AnswerText>{qa.answer}</AnswerText>
+              </AnswerContent>
+            </QuestionCard>
+          </QASection>
+        ))}
       </Content>
     </Container>
   );

@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { MdWork, MdSchool, MdBook, MdFavorite } from "react-icons/md";
 
 const Container = styled.div`
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: calc(100vh - 70px);
+  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +24,7 @@ const ProfileImage = styled.img`
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 32px;
-  border: 6px solid rgba(255, 255, 255, 0.3);
+  border: 6px solid rgba(178, 235, 242, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
@@ -37,8 +38,8 @@ const Name = styled.h1`
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 12px;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #222;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   @media (max-width: 768px) {
     font-size: 2.2rem;
@@ -47,7 +48,7 @@ const Name = styled.h1`
 
 const Title = styled.h2`
   font-size: 1.4rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #0097a7;
   margin-bottom: 40px;
   font-weight: 300;
 
@@ -58,7 +59,7 @@ const Title = styled.h2`
 
 const Introduction = styled.p`
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #333;
   margin-bottom: 48px;
   line-height: 1.6;
   max-width: 600px;
@@ -85,12 +86,15 @@ const NavCard = styled(Link)`
   text-decoration: none;
   color: #333;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
     background: rgba(255, 255, 255, 1);
   }
 
@@ -99,11 +103,17 @@ const NavCard = styled(Link)`
   }
 `;
 
+const NavIcon = styled.div`
+  font-size: 2.8rem;
+  color: #00bcd4;
+  margin-bottom: 16px;
+`;
+
 const NavTitle = styled.h3`
   font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 12px;
-  color: #4a5568;
+  color: #0097a7;
 
   @media (max-width: 768px) {
     font-size: 1.1rem;
@@ -112,7 +122,7 @@ const NavTitle = styled.h3`
 
 const NavDescription = styled.p`
   font-size: 0.95rem;
-  color: #718096;
+  color: #555;
   line-height: 1.5;
 
   @media (max-width: 768px) {
@@ -123,14 +133,14 @@ const NavDescription = styled.p`
 const ContactSection = styled.div`
   margin-top: 48px;
   padding: 32px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 188, 212, 0.08);
   border-radius: 16px;
   backdrop-filter: blur(10px);
 `;
 
 const ContactTitle = styled.h3`
   font-size: 1.2rem;
-  color: white;
+  color: #0097a7;
   margin-bottom: 16px;
 `;
 
@@ -142,16 +152,16 @@ const ContactLinks = styled.div`
 `;
 
 const ContactLink = styled.a`
-  color: rgba(255, 255, 255, 0.9);
+  color: #0097a7;
   text-decoration: none;
   padding: 8px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid #b2ebf2;
   border-radius: 8px;
   transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: #b2ebf2;
+    border-color: #0097a7;
   }
 `;
 
@@ -166,17 +176,22 @@ function Home() {
         <Name>山田 太郎</Name>
         <Title>フロントエンドエンジニア</Title>
         <Introduction>
-          Web開発が好きなエンジニアです。ReactやTypeScriptを中心に、UI/UXの向上に取り組んでいます。
-          新しい技術の習得と実践的なアプリケーション開発に情熱を持っています。
+          Web開発・アプリ開発を中心に行っているフロントエンドエンジニアです。新しい技術の習得と実践的なアプリケーション開発に情熱を持っています。
         </Introduction>
 
         <NavigationGrid>
           <NavCard to="/experience">
+            <NavIcon>
+              <MdSchool />
+            </NavIcon>
             <NavTitle>経歴・学歴</NavTitle>
             <NavDescription>職歴や学歴の詳細をご覧いただけます</NavDescription>
           </NavCard>
 
           <NavCard to="/projects">
+            <NavIcon>
+              <MdWork />
+            </NavIcon>
             <NavTitle>制作物・実績</NavTitle>
             <NavDescription>
               これまでに制作したアプリケーションや実績をご紹介します
@@ -184,6 +199,9 @@ function Home() {
           </NavCard>
 
           <NavCard to="/books">
+            <NavIcon>
+              <MdBook />
+            </NavIcon>
             <NavTitle>技術書紹介</NavTitle>
             <NavDescription>
               おすすめの技術書や学習に役立つ書籍をご紹介します
@@ -191,7 +209,10 @@ function Home() {
           </NavCard>
 
           <NavCard to="/hobbies">
-            <NavTitle>趣味</NavTitle>
+            <NavIcon>
+              <MdFavorite />
+            </NavIcon>
+            <NavTitle>自己紹介Q＆A</NavTitle>
             <NavDescription>
               プライベートでの趣味や興味のあることについてご紹介します
             </NavDescription>
