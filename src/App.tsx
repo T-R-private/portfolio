@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Experience from "./pages/Experience";
 import Projects from "./pages/Projects";
-import Books from "./pages/Books";
+import BooksAndSites from "./pages/BooksAndSites";
 import Hobbies from "./pages/Hobbies";
 
 const AppContainer = styled.div`
@@ -30,7 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/experience" element={<Experience />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/books" element={<Books />} />
+            <Route path="/books" element={<BooksAndSites />} />
             <Route path="/hobbies" element={<Hobbies />} />
           </Routes>
         </MainContent>
