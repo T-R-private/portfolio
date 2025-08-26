@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -25,6 +25,33 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script>
+      // GitHub Pages SPA redirect - 無限ループ防止版
+      (function () {
+        // 既にリダイレクト処理が実行されている場合は何もしない
+        if (sessionStorage.getItem("redirecting")) {
+          sessionStorage.removeItem("redirecting");
+          return;
+        }
+
+        var l = window.location;
+        var pathname = l.pathname;
+
+        // ベースパスを除去
+        var basePath = "/portfolio";
+        var cleanPath = pathname;
+
+        if (pathname.startsWith(basePath)) {
+          cleanPath = pathname.substring(basePath.length);
+        }
+
+        // 長大なURLの場合は、クリーンなパスにリダイレクト
+        if (l.search.length > 50 || l.href.length > 150) {
+          sessionStorage.setItem("redirecting", "true");
+          window.location.replace(basePath + cleanPath);
+        }
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
