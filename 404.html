@@ -4,19 +4,41 @@
     <meta charset="utf-8" />
     <title>Portfolio</title>
     <script>
-      // GitHub Pages SPA redirect for portfolio
+      // GitHub Pages SPA redirect for portfolio - デバッグ版
       (function () {
         const loc = window.location;
-        const origin = loc.origin; //=> https://t-r-private.github.io
-        const path = loc.href.substr(origin.length + 1); //=> portfolio/projects
+        console.log("404.html - Current URL:", loc.href);
+        console.log("404.html - Pathname:", loc.pathname);
+        console.log("404.html - Search:", loc.search);
 
-        // portfolio/ 以降のパスを取得
-        if (path.startsWith("portfolio/")) {
-          const route = path.substring("portfolio/".length); //=> projects
-          const url = origin + "/portfolio/?p=" + encodeURIComponent(route);
-          loc.replace(url);
+        const origin = loc.origin;
+        const pathname = loc.pathname;
+
+        // /portfolio/ 以降のパスを取得
+        if (pathname.startsWith("/portfolio/")) {
+          const route = pathname.substring("/portfolio/".length);
+          console.log("404.html - Extracted route:", route);
+
+          // 空の場合はホーム
+          if (!route || route === "") {
+            console.log("404.html - Redirecting to home");
+            loc.replace(origin + "/portfolio/");
+            return;
+          }
+
+          // 有効なルートかチェック
+          const validRoutes = ["experience", "projects", "books", "hobbies"];
+          if (validRoutes.includes(route)) {
+            console.log("404.html - Valid route, redirecting with query param");
+            const url = origin + "/portfolio/?p=" + encodeURIComponent(route);
+            console.log("404.html - Redirect URL:", url);
+            loc.replace(url);
+          } else {
+            console.log("404.html - Invalid route, redirecting to home");
+            loc.replace(origin + "/portfolio/");
+          }
         } else {
-          // portfolio/ で始まらない場合は、portfolio/ にリダイレクト
+          console.log("404.html - Not portfolio path, redirecting to home");
           loc.replace(origin + "/portfolio/");
         }
       })();
@@ -25,5 +47,6 @@
   <body>
     <h1>Redirecting...</h1>
     <p>ページをリダイレクトしています...</p>
+    <p>コンソールでデバッグ情報を確認してください。</p>
   </body>
 </html>
