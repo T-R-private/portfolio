@@ -4,30 +4,34 @@
     <meta charset="UTF-8" />
     <title>404 Not Found</title>
     <script>
-      // GitHub Pages SPA redirect
+      // GitHub Pages SPA redirect - 無限ループ防止版
       (function () {
         var l = window.location;
         var pathname = l.pathname;
 
-        // 無限リダイレクトを防ぐため、redirectパラメータがある場合は処理しない
-        if (l.search.includes("redirect=")) {
+        // 既にリダイレクト処理が実行されている場合は何もしない
+        if (sessionStorage.getItem("redirecting")) {
           return;
         }
 
-        // ベースパスを除去してルートパスを取得
+        // リダイレクト処理開始をマーク
+        sessionStorage.setItem("redirecting", "true");
+
+        // ベースパスを除去
         var basePath = "/portfolio";
+        var cleanPath = pathname;
+
         if (pathname.startsWith(basePath)) {
-          pathname = pathname.substring(basePath.length);
+          cleanPath = pathname.substring(basePath.length);
         }
 
-        // ルートパスが空または/の場合は、ベースパスにリダイレクト
-        if (!pathname || pathname === "/") {
+        // ルートパスまたは空の場合は、ベースパスにリダイレクト
+        if (!cleanPath || cleanPath === "/") {
           window.location.replace(basePath + "/");
-          return;
+        } else {
+          // その他のパスの場合は、ベースパス + パスにリダイレクト
+          window.location.replace(basePath + cleanPath);
         }
-
-        // その他のパスの場合は、ベースパス + パスにリダイレクト
-        window.location.replace(basePath + pathname + l.search + l.hash);
       })();
     </script>
   </head>
